@@ -121,13 +121,24 @@ class ImageStandardizer(object):
 
     def fit(self, X):
         """Calculate per-channel mean and standard deviation from dataset X."""
-        # TODO: Complete this function
-        # self.image_mean =
-        # self.image_std = 
+        X = np.array(X)
+        r = X[:,:,:,0]
+        g = X[:,:,:,1]
+        b = X[:,:,:,2]
+        self.image_mean = (np.mean(r), np.mean(g), np.mean(b))
+        self.image_std = (np.std(r), np.std(g), np.std(b))
 
     def transform(self, X):
         """Return standardized dataset given dataset X."""
-        # TODO: Complete this function
+        X = np.array(X)
+        X = X.astype('float64') 
+        X[:,:,:,0] = np.subtract(X[:,:,:,0], self.image_mean[0])
+        X[:,:,:,0] = np.subtract(X[:,:,:,0], self.image_std[0])
+        X[:,:,:,1] = np.subtract(X[:,:,:,1], self.image_mean[1])
+        X[:,:,:,1] = np.subtract(X[:,:,:,1], self.image_std[1])
+        X[:,:,:,2] = np.subtract(X[:,:,:,1], self.image_mean[2])
+        X[:,:,:,2] = np.subtract(X[:,:,:,2], self.image_std[2])
+        return X
 
 
 
