@@ -416,5 +416,3 @@ bundle.js
 tmp
 var/
 data/images/
-checkpoints/cnn/
-cnn_training_plot.png
