@@ -21,8 +21,8 @@ class Target(nn.Module):
         self.conv1 = nn.Conv2d(3, 16, 5, stride=2, padding=2)
         self.pool = nn.MaxPool2d(2, stride=2, padding=0)
         self.conv2 = nn.Conv2d(16, 64, 5, stride=2, padding=2)
-        self.conv3 = nn.Conv2d(64, 8, 5, stride=2, padding=2)
-        self.fc_1 = nn.Linear(32, 2)
+        self.conv3 = nn.Conv2d(64, 32, 5, stride=2, padding=2)
+        self.fc_1 = nn.Linear(128, 2)
         ##
 
         self.init_weights()
@@ -57,7 +57,12 @@ class Target(nn.Module):
 
         #Conv3
         z = F.relu(self.conv3(z))
+        # N, C, H, W = z.shape 
+        # print(N,C,H,W, sep='X')
 
-        z = z.view(N, -1)
+        z = z.view(-1, 128)
+        #print(z.shape)
+
+        #print(N,C,H,W, sep='X')
         z = self.fc_1(z)
         return z
