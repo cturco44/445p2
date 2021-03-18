@@ -17,11 +17,12 @@ class Target(nn.Module):
         super().__init__()
 
         ## TODO: define each layer
-        self.conv1 =
-        self.pool =
-        self.conv2 =
-        self.conv3 =
-        self.fc_1 =
+        ## nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding)
+        self.conv1 = nn.Conv2d(3, 16, 5, stride=2, padding=2)
+        self.pool = nn.MaxPool2d(2, stride=2, padding=0)
+        self.conv2 = nn.Conv2d(16, 64, 5, stride=2, padding=2)
+        self.conv3 = nn.Conv2d(5, 8, 5, stride=2, padding=2)
+        self.fc_1 = nn.Linear(32, 2)
         ##
 
         self.init_weights()
@@ -33,16 +34,16 @@ class Target(nn.Module):
             C_in = conv.weight.size(1)
             nn.init.normal_(conv.weight, 0.0, 1 / sqrt(5 * 5 * C_in))
             nn.init.constant_(conv.bias, 0.0)
-
-        ## TODO: initialize the parameters for [self.fc_1]
-
-        ##
+        
+        nn.init.normal_(self.fc_1.weight, 0.0, 1 / 32.0)
+        nn.init.constant_(self.fc_1.bias, 0.0)
 
     def forward(self, x):
         N, C, H, W = x.shape
-
-        ## TODO: forward pass
-
-        ##
+        z = self.pool(F.relu(self.conv1(x)))
+        z = self.pool(F.relu(self.conv2(z)))
+        z = F.relu(self.conv2(x))
+        z = z.view(32)
+        z = self.fc_1()
 
         return z
