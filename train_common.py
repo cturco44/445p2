@@ -138,7 +138,8 @@ def early_stopping(stats, curr_patience, prev_val_loss):
     Returns: new values of curr_patience and prev_val_loss
     """
     # TODO implement early stopping
-
+    curr_patience = 0
+    prev_val_loss = 1
     #
     return curr_patience, prev_val_loss
 
@@ -213,8 +214,11 @@ def train_epoch(data_loader, model, criterion, optimizer):
     """
     for i, (X, y) in enumerate(data_loader):
         # TODO implement training steps
-
-
+        optimizer.zero_grad()
+        outputs = model(X)
+        loss = criterion(outputs, y)
+        loss.backward()
+        optimizer.step()
 
 
 def predictions(logits):
@@ -224,5 +228,6 @@ def predictions(logits):
         the predicted class output as a PyTorch Tensor
     """
     # TODO implement predictions
-    pred =
+    pred = torch.argmax(logits, dim=1)
     return pred
+

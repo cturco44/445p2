@@ -36,8 +36,8 @@ def main():
     model = Target()
 
     # TODO: define loss function, and optimizer
-    criterion = 
-    optimizer =
+    criterion = torch.nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
     #
 
     print("Number of float-valued parameters:", count_parameters(model))
@@ -57,8 +57,8 @@ def main():
     prev_val_loss = stats[0][1]
 
     # TODO: define patience for early stopping
-    patience =
-    curr_patience = 
+    # patience =
+    # curr_patience = 
     #
 
     # Loop over the entire dataset multiple times
