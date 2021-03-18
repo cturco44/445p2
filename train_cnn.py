@@ -57,9 +57,8 @@ def main():
     prev_val_loss = stats[0][1]
 
     # TODO: define patience for early stopping
-    # patience =
-    # curr_patience = 
-    #
+    patience = 5
+    curr_patience = 0
 
     # Loop over the entire dataset multiple times
     # for epoch in range(start_epoch, config('cnn.num_epochs')):
