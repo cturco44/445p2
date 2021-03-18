@@ -137,10 +137,12 @@ def early_stopping(stats, curr_patience, prev_val_loss):
 
     Returns: new values of curr_patience and prev_val_loss
     """
-    # TODO implement early stopping
-    curr_patience = 0
-    prev_val_loss = 1
-    #
+    new_loss = stats[-1][1]
+    # New loss is not less than prev_val_loss
+    if(new_loss >= prev_val_loss):
+        curr_patience += 1
+    else:
+        prev_val_loss = new_loss
     return curr_patience, prev_val_loss
 
 

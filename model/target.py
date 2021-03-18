@@ -41,28 +41,23 @@ class Target(nn.Module):
     def forward(self, x):
         N, C, H, W = x.shape 
         #Initial
-        print(C,H,W, sep='X')
+        #print(C,H,W, sep='X')
 
         #Conv1
         z = F.relu(self.conv1(x))
-        N, C, H, W = z.shape
-        print(C,H,W, sep='X')
+  
         #Pool1
         z = self.pool(z)
 
         #Conv2
         z = F.relu(self.conv2(z))
-        N, C, H, W = z.shape
-        print(C,H,W, sep='X')
+
         #Pool2
         z = self.pool(z)
 
         #Conv3
         z = F.relu(self.conv3(z))
-        N, C, H, W = z.shape
-        print(C,H,W, sep='X')
-        print("N ", N)
+
         z = z.view(N, -1)
         z = self.fc_1(z)
-        print(z.shape)
         return z
