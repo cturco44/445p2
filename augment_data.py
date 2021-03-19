@@ -26,7 +26,11 @@ def Rotate(deg=20):
         :img: H x W x C numpy array
         :returns: H x W x C numpy array
         """
-        # TODO
+        low = -1 * abs(deg)
+        high = abs(deg) + 1
+        rotation = np.random.randint(low, high)
+        x = rotate(img, rotation, reshape=False)
+        return x
 
     return _rotate
 
@@ -41,9 +45,14 @@ def Grayscale():
 
         :img: H x W x C numpy array
         :returns: H x W x C numpy array
-
         """
-        # TODO
+        avg = np.average(img, axis=2)
+        x = np.copy(img)
+        x[:,:,0] = avg
+        x[:,:,1] = avg
+        x[:,:,2] = avg
+
+        return x
 
     return _grayscale
 
@@ -78,7 +87,7 @@ def main(args):
     augment_partitions = set(args.partitions)
 
     # TODO: change `augmentations` to specify which augmentations to apply
-    augmentations = [Grayscale(), Rotate()]
+    augmentations = [Grayscale()]
 
     writer.writeheader()
     os.makedirs(f"{args.datadir}/augmented/", exist_ok=True)
@@ -97,7 +106,7 @@ def main(args):
             f"{args.datadir}/images/{row['filename']}",
             augmentations,
             n=1,
-            original=True,  # TODO: change to False to exclude original image.
+            original=False,  # TODO: change to False to exclude original image.
         )
         for i, img in enumerate(imgs):
             fname = f"{row['filename'][:-4]}_aug_{i}.png"
