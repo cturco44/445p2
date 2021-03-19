@@ -136,7 +136,7 @@ class ImageStandardizer(object):
         X[:,:,:,0] = np.divide(X[:,:,:,0], self.image_std[0])
         X[:,:,:,1] = np.subtract(X[:,:,:,1], self.image_mean[1])
         X[:,:,:,1] = np.divide(X[:,:,:,1], self.image_std[1])
-        X[:,:,:,2] = np.subtract(X[:,:,:,1], self.image_mean[2])
+        X[:,:,:,2] = np.subtract(X[:,:,:,2], self.image_mean[2])
         X[:,:,:,2] = np.divide(X[:,:,:,2], self.image_std[2])
         return X
 
