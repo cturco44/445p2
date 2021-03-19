@@ -87,7 +87,7 @@ def main(args):
     augment_partitions = set(args.partitions)
 
     # TODO: change `augmentations` to specify which augmentations to apply
-    augmentations = [Grayscale()]
+    augmentations = [Rotate()]
 
     writer.writeheader()
     os.makedirs(f"{args.datadir}/augmented/", exist_ok=True)
@@ -106,7 +106,7 @@ def main(args):
             f"{args.datadir}/images/{row['filename']}",
             augmentations,
             n=1,
-            original=False,  # TODO: change to False to exclude original image.
+            original=True,  # TODO: change to False to exclude original image.
         )
         for i, img in enumerate(imgs):
             fname = f"{row['filename'][:-4]}_aug_{i}.png"

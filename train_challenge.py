@@ -33,8 +33,8 @@ def main():
     model = Challenge()
 
     # TODO: define loss function, and optimizer
-    criterion =
-    optimizer =
+    criterion = torch.nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
     #
 
     # Attempts to restore the latest checkpoint if exists
@@ -52,7 +52,7 @@ def main():
     prev_val_loss = stats[0][1]
 
     #TODO: define patience for early stopping
-    patience =
+    patience = 5
     curr_patience = 0
     #
 

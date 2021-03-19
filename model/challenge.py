@@ -32,8 +32,9 @@ class Challenge(nn.Module):
         self.pool = nn.MaxPool2d(2, stride=2)
         self.dropout = nn.Dropout(0.5)
 
-        self.fc1 = nn.Linear(2048, 2048)
-        self.fc2 = nn.Linear(2048, 2)
+        self.fc1 = nn.Linear(4096, 256)
+        self.fc2 = nn.Linear(256, 256)
+        self.fc3 = nn.Linear(256, 2)
         ##
 
         self.init_weights()
@@ -46,40 +47,57 @@ class Challenge(nn.Module):
             nn.init.normal_(conv.weight, 0.0, 1 / sqrt(5 * 5 * C_in))
             nn.init.constant_(conv.bias, 0.0)
 
-        nn.init.normal_(self.fc1.weight, 0.0, 1 / 2048.0)
+        nn.init.normal_(self.fc1.weight, 0.0, 1 / 4096.0)
         nn.init.constant_(self.fc1.bias, 0.0)
 
-        nn.init.normal_(self.fc2.weight, 0.0, 1 / 2048.0)
+        nn.init.normal_(self.fc2.weight, 0.0, 1 / 256.0)
         nn.init.constant_(self.fc2.bias, 0.0)
+
+        nn.init.normal_(self.fc3.weight, 0.0, 1 / 256.0)
+        nn.init.constant_(self.fc3.bias, 0.0)
         ##
 
     def forward(self, x):
-        N, C, H, W = x.shape
         # Round 1
         z = F.relu(self.conv1(x))
+        N, C, H, W = z.shape
         z = F.relu(self.conv2(z))
+        N, C, H, W = z.shape
         z = self.pool(z)
+        N, C, H, W = z.shape
 
         # Round 2
         z = F.relu(self.conv3(z))
+        N, C, H, W = z.shape
         z = F.relu(self.conv4(z))
+        N, C, H, W = z.shape
         z = self.pool(z)
+        N, C, H, W = z.shape
 
         # Round 3
         z = F.relu(self.conv5(z))
+        N, C, H, W = z.shape
         z = F.relu(self.conv6(z))
+        N, C, H, W = z.shape
         z = self.pool(z)
+        N, C, H, W = z.shape
 
         # Round 4
         z = F.relu(self.conv7(z))
+        N, C, H, W = z.shape
         z = F.relu(self.conv8(z))
+        N, C, H, W = z.shape
         z = self.pool(z)
+        N, C, H, W = z.shape
+        N, C, H, W = z.shape
 
+        z = z.view(-1, 4096)
         z = F.relu(self.fc1(z))
+        
         z = self.dropout(z)
-        z = F.relu(self.fc1(z))
-        z = self.dropout(z)
-
         z = F.relu(self.fc2(z))
+        z = self.dropout(z)
+
+        z = self.fc3(z)
 
         return z
