@@ -52,7 +52,7 @@ def main():
     prev_val_loss = stats[0][1]
 
     #TODO: define patience for early stopping
-    patience = 5
+    patience = 15
     curr_patience = 0
     #
 
