@@ -29,14 +29,23 @@ def freeze_layers(model, num_layers=0):
     #TODO: modify model with the given layers frozen
     #      e.g. if num_layers=2, freeze CONV1 and CON2
     #      Hint: https://pytorch.org/docs/master/notes/autograd.html
-    
-
+    if num_layers == 0:
+        return
+    for name, param in model.named_parameters():
+        # Conv
+        if name[0] == 'c':
+            layer_num = int(name[4])
+            if(num_layers >= layer_num):
+                param.requires_grad = False
+        elif name[0] == 'f':
+            if num_layers >= 4:
+                param.requires_grad = False
 
 def train(tr_loader, va_loader, te_loader, model, model_name, num_layers=0):
     """Train transfer learning model."""
     #TODO: define loss function, and optimizer
-    criterion = 
-    optimizer = 
+    criterion = torch.nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
     #
 
     print("Loading target model with", num_layers, "layers frozen")
@@ -60,8 +69,8 @@ def train(tr_loader, va_loader, te_loader, model, model_name, num_layers=0):
     prev_val_loss = stats[0][1]
 
     #TODO: patience for early stopping
-    patience = 
-    curr_patience = 
+    patience = 5
+    curr_patience = 0
     #
 
     # Loop over the entire dataset multiple times
